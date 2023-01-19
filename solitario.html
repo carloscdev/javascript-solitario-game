@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+	<meta charset="utf-8">
+	<script src="https://cdn.tailwindcss.com"></script>
+	<link rel="shortcut icon" href="./imagenes/favicon.ico" type="image/x-icon">
+	<link rel="stylesheet" href="./css/solitario.css">
+	<title>Solitario VIU - Actividad 1</title>
+</head>
+
+<body>
+	<div class="text-neutral-200 w-[720px]">
+		<h1 class="text-3xl font-bold text-center mb-10">
+			Solitario
+			<span class="text-orange-600">VIU</span>
+		</h1>
+		<h2 class="flex items-center justify-between text-xl">
+			<p>
+				Tiempo:
+				<span id="contador_tiempo"></span>
+			</p>
+			<p>
+				Movimientos:
+				<span id="contador_movimientos" class="">52</span>
+			</p>
+		</h2>
+		<div class="grid grid-cols-4 gap-5 my-10" id="mesa">
+			<div
+				id="inicial"
+				class="bg-gray-100/20 h-[176px] shadow-lg rounded-lg"
+				draggable="true"
+			>
+				<span id="contador_inicial" class="contador"></span>
+			</div>
+			<div
+				id="sobrantes"
+				class="bg-orange-300/30 border border-orange-400
+					rounded-lg shadow-lg col-start-4 col-end-5"
+				draggable="true"
+			>
+				<span id="contador_sobrantes" class="contador"></span>
+			</div>
+
+			<div
+				id="receptor1"
+				class="tapete receptor bg-white/10 rounded-lg border shadow-lg"
+				draggable="true"
+			>
+				<span id="contador_receptor1" class="contador"></span>
+			</div>
+			<div
+				id="receptor2"
+				class="tapete receptor bg-white/10 rounded-lg border shadow-lg"
+				draggable="true"
+			>
+				<span id="contador_receptor2" class="contador"></span>
+			</div>
+			<div
+				id="receptor3"
+				class="tapete receptor bg-white/10 rounded-lg border shadow-lg"
+				draggable="true"
+			>
+				<span id="contador_receptor3" class="contador"></span>
+			</div>
+			<div
+				id="receptor4"
+				class="tapete receptor bg-white/10 rounded-lg border shadow-lg"
+				draggable="true"
+			>
+				<span id="contador_receptor4" class="contador"></span>
+			</div>
+		</div>
+
+		<button
+			id="reset"
+			class="inline-block w-40 py-4 rounded-lg shadow-lg bg-red-700 font-bold"
+		>
+			Reiniciar
+		</button>
+	</div>
+
+	<script type="text/javascript" src="./js/solitario.js"></script>
+</body>
+
+</html>
