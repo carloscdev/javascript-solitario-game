@@ -31,20 +31,43 @@ const contTiempo  = document.getElementById("contador_tiempo"); // span cuenta t
 let segundos 	 = 0;    // cuenta de segundos
 let temporizador = null; // manejador del temporizador
 
+let movimientos = 0;
+
 // Botones
 const reiniciar = document.getElementById("reset");
 
 // Asignación de funciones
 reiniciar.onclick = reiniciarJuego;
-tapeteSobrantes.addEventListener("dragleave", dragLeave);
-tapeteReceptor1.addEventListener("dragleave", dragLeave);
-tapeteReceptor2.addEventListener("dragleave", dragLeave);
-tapeteReceptor3.addEventListener("dragleave", dragLeave);
-tapeteReceptor4.addEventListener("dragleave", dragLeave);
+
+tapeteSobrantes.addEventListener("dragover", permitirDrop, false);
+tapeteSobrantes.addEventListener("drop", drop, false);
+tapeteSobrantes.addEventListener("dragenter", dragEntra, false);
+tapeteSobrantes.addEventListener("dragleave", dragSale, false);
+
+tapeteReceptor1.addEventListener("dragover", permitirDrop, false);
+tapeteReceptor1.addEventListener("drop", drop, false);
+tapeteReceptor1.addEventListener("dragenter", dragEntra, false);
+tapeteReceptor1.addEventListener("dragleave", dragSale, false);
+
+tapeteReceptor2.addEventListener("dragover", permitirDrop, false);
+tapeteReceptor2.addEventListener("drop", drop, false);
+tapeteReceptor2.addEventListener("dragenter", dragEntra, false);
+tapeteReceptor2.addEventListener("dragleave", dragSale, false);
+
+tapeteReceptor3.addEventListener("dragover", permitirDrop, false);
+tapeteReceptor3.addEventListener("drop", drop, false);
+tapeteReceptor3.addEventListener("dragenter", dragEntra, false);
+tapeteReceptor3.addEventListener("dragleave", dragSale, false);
+
+tapeteReceptor4.addEventListener("dragover", permitirDrop, false);
+tapeteReceptor4.addEventListener("drop", drop, false);
+tapeteReceptor4.addEventListener("dragenter", dragEntra, false);
+tapeteReceptor4.addEventListener("dragleave", dragSale, false);
 
 // Desarrollo del comienzo de juego
 function comenzarJuego() {
 	barajarMazoInicial();
+	inicializarContador()
 	arrancarTiempo();
 
 } // comenzarJuego
@@ -74,19 +97,19 @@ function barajarMazoInicial() {
 		}
 	}
 	mazoInicial = barajarMazo(mazoInicial);
-	contInicial.innerHTML = mazoInicial.length;
 	for (let mazo of mazoInicial) {
-		setTimeout(() => {
-			cargarTapete(tapeteInicial, mazo);
-		}, 500)
+		cargarTapete(tapeteInicial, mazo);
 	}
-} // barajar
+}
 
 function cargarTapete(componente, mazo) {
 	const cartaMazo = document.createElement('img');
 	cartaMazo.src = `../imagenes/baraja/${mazo}.png`;
-	cartaMazo.className = 'cartaMazo';
-	cartaMazo.id = mazo;
+	cartaMazo.setAttribute('class', 'cartaMazo');
+	cartaMazo.setAttribute('id', mazo);
+	cartaMazo.setAttribute('draggable', 'true');
+	cartaMazo.addEventListener("dragstart", dragInicio);
+	cartaMazo.addEventListener("dragend", dragFin);
 	componente.appendChild(cartaMazo);
 }
 
@@ -94,13 +117,12 @@ function setContador(contador, valor) {
 	contador.innerHTML = valor;
 }
 
-
 function barajarMazo(lista) {
 	for (let i = lista.length - 1; i > 0; i--) {
 		let j = Math.floor(Math.random() * (i + 1));
 		[lista[i], lista[j]] = [lista[j], lista[i]];
 	}
-	return [...lista];
+	return lista;
 }
 
 // Reiniciar el juego
@@ -113,23 +135,155 @@ function reiniciarJuego() {
 	mazoReceptor2 = [];
 	mazoReceptor3 = [];
 	mazoReceptor4 = [];
+	movimientos = 0;
 	clearInterval(temporizador);
 	comenzarJuego();
 }
 
-function dragLeave(e) {
-	let cartaActual = e.dataTransfer.getData('text/plain').split('/').at(-1).replace('.png', '');
-	if (mazoSobrantes.includes(cartaActual)) return;
-	mazoSobrantes.push(cartaActual);
+function inicializarContador() {
+	setContador(contInicial, mazoInicial.length);
+	setContador(contSobrantes, mazoSobrantes.length);
+	setContador(contReceptor1, mazoReceptor1.length);
+	setContador(contReceptor2, mazoReceptor2.length);
+	setContador(contReceptor3, mazoReceptor3.length);
+	setContador(contReceptor4, mazoReceptor4.length);
+	setContador(contMovimientos, movimientos++);
+}
 
-	mazoInicial = mazoInicial.filter(item => item !== cartaActual);
+function finalizarJuego() {
+	alert("GANASTER");
+	reiniciarJuego();
+}
 
-	const cartaAntigua = document.getElementById(cartaActual);
-	if (cartaAntigua) cartaAntigua.remove();
+function dragInicio(ev) {
+	ev.dataTransfer.setData("Text",ev.target.id);
+	const images = document.querySelectorAll('img')
+	for (let image of images) {
+		image.classList.add("block-event");
+	}
+}
 
-	cargarTapete(e.originalTarget, cartaActual);
+function drop(ev) {
+	ev.preventDefault();
+	let tapeteActual = ev.originalTarget;
+	const idCartaActual = ev.dataTransfer.getData('text/plain').split('/').at(-1).replace('.png', '');
+	const valorCarta = idCartaActual.split('-');
+	const numero = Number(valorCarta[0]);
+	const color = valorCarta[1];
+	let error = false;
+	console.log(valorCarta);
 
+	if (tapeteActual.id === 'sobrantes') {
+		mazoSobrantes.push(idCartaActual);
+	}  else if (tapeteActual.id === 'receptor1') {
+		if (mazoReceptor1.length > 0) {
+			const valorPrevio = mazoReceptor1.at(-1).split('-')
+			if (!validarPorColor(valorPrevio[1], color) || !validarPorNumero(Number(valorPrevio[0]), numero)) {
+				error = true;
+			} else {
+				mazoReceptor1.push(idCartaActual);
+			}
+		} else {
+			if (numero === 12) {
+				mazoReceptor1.push(idCartaActual);
+			} else {
+				error = true;
+			}
+		}
+	} else if (tapeteActual.id === 'receptor2') {
+		if (mazoReceptor2.length > 0) {
+			const valorPrevio = mazoReceptor2.at(-1).split('-')
+			if (!validarPorColor(valorPrevio[1], color) || !validarPorNumero(Number(valorPrevio[0]), numero)) {
+				error = true;
+			} else {
+				mazoReceptor2.push(idCartaActual);
+			}
+		} else {
+			if (numero === 12) {
+				mazoReceptor2.push(idCartaActual);
+			} else {
+				error = true;
+			}
+		}
+	} else if (tapeteActual.id === 'receptor3') {
+		if (mazoReceptor3.length > 0) {
+			const valorPrevio = mazoReceptor3.at(-1).split('-')
+			if (!validarPorColor(valorPrevio[1], color) || !validarPorNumero(Number(valorPrevio[0]), numero)) {
+				error = true;
+			} else {
+				mazoReceptor3.push(idCartaActual);
+			}
+		} else {
+			if (numero === 12) {
+				mazoReceptor3.push(idCartaActual);
+			} else {
+				error = true;
+			}
+		}
+	} else if (tapeteActual.id === 'receptor4') {
+		if (mazoReceptor4.length > 0) {
+			const valorPrevio = mazoReceptor4.at(-1).split('-')
+			if (!validarPorColor(valorPrevio[1], color) || !validarPorNumero(Number(valorPrevio[0]), numero)) {
+				error = true;
+			} else {
+				mazoReceptor4.push(idCartaActual);
+			}
+		} else {
+			if (numero === 12) {
+				mazoReceptor4.push(idCartaActual);
+			} else {
+				error = true;
+			}
+		}
+	} else {
+		error = true;
+	}
+
+	if (!error) {
+		mazoInicial.pop();
+	ev.target.appendChild(document.getElementById(idCartaActual));
+	}
+	ev.target.style.opacity = "1";
+}
+
+function validarPorColor(prev, next) {
+	if (prev === 'hex' || prev === 'cir') {
+		return (next === 'cua' || next === 'viu');
+	} else {
+		return (next === 'hex' || next === 'cir');
+	}
+}
+
+function validarPorNumero(prev, next) {
+	return (prev - 1) === next;
+}
+
+function permitirDrop(ev) {
+	ev.preventDefault();
+}
+
+function dragEntra(ev) {
+	ev.target.style.opacity = "0.5";
+}
+
+function dragSale(ev) {
+	ev.target.style.opacity = "1";
+}
+
+function dragFin() {
+	const images = document.querySelectorAll('img');
+	for (let image of images) {
+		image.classList.remove("block-event");
+	}
+	inicializarContador();
+
+	if (mazoInicial.length === 0 && mazoSobrantes.length === 0) {
+		finalizarJuego();
+	}
 	console.log('Mazo Inicial', mazoInicial);
 	console.log('Mazo Sobrantes', mazoSobrantes);
-	console.log(e.originalTarget, '----', tapeteSobrantes);
+	console.log('Mazo Receptor 1', mazoReceptor1);
+	console.log('Mazo Receptor 2', mazoReceptor2);
+	console.log('Mazo Receptor 3', mazoReceptor3);
+	console.log('Mazo Receptor 4', mazoReceptor4);
 }
