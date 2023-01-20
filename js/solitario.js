@@ -108,6 +108,7 @@ function cargarTapete(componente, mazo) {
 	cartaMazo.setAttribute('class', 'cartaMazo');
 	cartaMazo.setAttribute('id', mazo);
 	cartaMazo.setAttribute('draggable', 'true');
+	cartaMazo.setAttribute('alt', mazo);
 	cartaMazo.addEventListener("dragstart", dragInicio);
 	cartaMazo.addEventListener("dragend", dragFin);
 	componente.appendChild(cartaMazo);
