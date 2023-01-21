@@ -23,6 +23,9 @@ let mazo = {
 	receptor4: []
 }
 
+// Body
+const body = document.querySelector('body')
+
 // Contadores de cartas
 const contInicial     = document.getElementById("contador_inicial");
 const contSobrantes   = document.getElementById("contador_sobrantes");
@@ -201,23 +204,19 @@ function finalizarJuego() {
 function dragInicio(ev) {
 	ev.dataTransfer.setData("tapeteActual", document.getElementById(ev.target.id).parentElement.id)
 	ev.dataTransfer.setData("cartaActual",ev.target.id);
-	const images = document.querySelectorAll('img')
-	for (let image of images) {
-		image.classList.add("block-event");
-	}
+	setTimeout(() => body.setAttribute("class", "block-event"), 100)
 }
 
 // Se ejecuta cuando se suelta la carta dentro de otro tapete y realiza una validación
 function drop(ev) {
 	ev.preventDefault();
-	let tapeteActual = ev.originalTarget;
+	let tapeteActual = ev.target;
 	const tapeteAnterior = ev.dataTransfer.getData('tapeteActual')
 	const cartaActual = ev.dataTransfer.getData('cartaActual').split('/').at(-1).replace('.png', '');
 	const valorCarta = cartaActual.split('-');
 	const numero = Number(valorCarta[0]);
 	const color = valorCarta[1];
 	let error = false;
-
 	if (tapeteActual.id === 'sobrantes') {
 		mazo['sobrantes'].push(cartaActual);
 	} else {
@@ -275,10 +274,7 @@ function dragSale(ev) {
 // Se ejecuta al soltar la carta
 function dragFin() {
 	inicializarContador();
-	const images = document.querySelectorAll("img");
-	for (let image of images) {
-		image.classList.remove("block-event");
-	}
+	body.classList.remove("block-event");
 
 	if (mazo['inicial'].length === 0 && mazo['sobrantes'].length === 0) {
 		finalizarJuego();
