@@ -29,6 +29,11 @@ body {
 	left: 0;
 	right: 0;
 	border-radius: 15px;
+	cursor: grab;
+}
+
+#mesa img:cctive {
+	cursor: grabbing;
 }
 
 .block-event img,
@@ -37,4 +42,5 @@ body {
 #receptor3 img,
 #receptor4 img {
 	pointer-events: none;
+	cursor: no-drop;
 }
