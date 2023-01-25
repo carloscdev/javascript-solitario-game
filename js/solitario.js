@@ -204,7 +204,7 @@ function finalizarJuego() {
 function dragInicio(ev) {
 	ev.dataTransfer.setData("tapeteActual", document.getElementById(ev.target.id).parentElement.id)
 	ev.dataTransfer.setData("cartaActual",ev.target.id);
-	setTimeout(() => body.setAttribute("class", "block-event"), 100)
+	setTimeout(() => body.setAttribute("class", "block-event"), 50)
 }
 
 // Se ejecuta cuando se suelta la carta dentro de otro tapete y realiza una validación

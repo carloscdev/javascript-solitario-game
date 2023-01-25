@@ -1,41 +1,159 @@
+/* Fuente */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
 
+/* Variables  */
+:root {
+	--primary-color: 243, 77, 16;
+	--white-color: 249, 249, 249;
+	--black-color: 18, 27, 42;
+	--gray-color: 29, 40, 57;
+	--danger-color: 217, 17, 56;
+	--rounded-custom: 0.3rem;
+	--rounded-lg-custom: 0.5rem;
+	--shadow-custom: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+}
 
+/* Globales */
+* {
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+}
 body {
-	background: radial-gradient(circle, rgba(58,102,72,1) 0%, rgba(31,65,42,1) 100%);
+	background-color: rgb(var(--black-color));
+	background-image: url('../imagenes/background.png');
 	min-height: 100vh;
 	display: grid;
 	place-content: center;
+	font-family: 'Roboto', sans-serif;
 }
-
-.contador {
-	position: absolute;
-	bottom: 3px;
-	left: 3px;
+li {
+	list-style: none;
+}
+.icono {
+	font-size: 1.2rem;
+	color: rgb(var(--primary-color));
+}
+.contenedor {
+	color: rgb(var(--white-color));
+	min-width: 860px;
+	margin: 3rem 0;
+	display: grid;
+	gap: 3rem;
+}
+h1 {
+	font-size: 2.5rem;
 	font-weight: bold;
+	text-align: center;
+}
+h1 span {
+	color: rgb(var(--primary-color));
+}
+.stats {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	font-size: 1.3rem;
+}
+.stats p {
+	background-color: rgb(var(--gray-color));
+	padding: 1rem;
+	box-shadow: var(--shadow-custom);
+	border-radius: var(--rounded-custom);
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 1rem;
 }
 
+/* Navbar */
+.navbar {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+
+/* Botones */
+.btn {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 0.5rem;
+	width: 160px;
+	padding: 0.8rem 0;
+	border-radius: var(--rounded-custom);
+	box-shadow: var(--shadow-custom);
+	font-weight: bold;
+	transition: transform 0.2s ease-in-out;
+	color: rgb(var(--white-color));
+	border: none;
+	cursor: pointer;
+}
+.btn:hover {
+	transform: translateY(2px);
+}
+.btn-danger {
+	background-color: rgb(var(--danger-color));
+}
+.btn-primary {
+	background-color: rgb(var(--primary-color));
+}
+
+/* Mesa Principal */
+#mesa {
+	display: grid;
+	grid-template-columns: repeat(4, 1fr);
+	gap: 1rem;
+	background-color: rgb(var(--gray-color));
+	padding: 3rem;
+	border-radius: var(--rounded-lg-custom);
+	box-shadow: var(--shadow-custom);
+}
 #mesa > div {
 	position: relative;
 	height: 250px;
+	border-radius: var(--rounded-custom);
+	box-shadow: var(--shadow-custom);
+	border: 1px solid rgb(var(--white-color));
+	background-color: rgba(var(--white-color), 0.1);
 }
-
+#mesa > div:first-child {
+	border: none;
+}
+#mesa > div:nth-child(2){
+	box-shadow: none;
+	border: none;
+	background-color: transparent;
+	grid-column: 2 / 4;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	height: 100%;
+}
+#mesa > div:nth-child(3){
+	border-color: rgba(var(--primary-color), 0.5);
+	background-color: rgba(var(--primary-color), 0.05);
+}
 #mesa img {
-	width: 75%;
-	height: 80%;
+	width: 77%;
+	height: 81%;
 	object-fit: cover;
 	margin: 0 auto;
 	position: absolute;
-	top: 25px;
+	top: 23px;
 	left: 0;
 	right: 0;
-	border-radius: 15px;
 	cursor: grab;
 }
-
-#mesa img:cctive {
+#mesa img:active {
 	cursor: grabbing;
 }
-
+.contador {
+	position: absolute;
+	bottom: 5px;
+	left: 5px;
+	font-weight: bold;
+}
 .block-event img,
 #receptor1 img,
 #receptor2 img,
@@ -43,4 +161,48 @@ body {
 #receptor4 img {
 	pointer-events: none;
 	cursor: no-drop;
+}
+
+/* Modal de resultados */
+.modal {
+	position: fixed;
+	top: 0;
+	left: 0;
+	height: 100vh;
+	width: 100vw;
+	background-color: rgba(var(--black-color), 0.9);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+.modal > div {
+	background-color: rgb(var(--white-color));
+	color: rgb(var(--black-color));
+	border-radius: var(--rounded-lg-custom);
+	box-shadow: var(--shadow-custom);
+	width: 860px;
+	max-width: 90%;
+	aspect-ratio: 1 / 1;
+	padding: 1rem;
+	display: grid;
+	gap: 3rem;
+	place-content: center;
+	text-align: center;
+}
+.modal button {
+	margin: 0 auto;
+}
+.modal h2 {
+	font-weight: bold;
+	font-size: 2rem;
+	margin-top: 1rem;
+}
+.modal ul li {
+	font-size: 1.3rem;
+}
+.modal ul li:nth-child(2) {
+	margin: 2rem 0;
+}
+.hidden {
+	display: none;
 }

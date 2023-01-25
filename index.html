@@ -8,124 +8,107 @@
 	<meta property="og:description" content="Actividad - 1 [JavaScript]">
 	<meta property="og:type" content="website">
 	<meta property="og:url" content="https://javascript-solitario-game.vercel.app/">
-	<meta
-		property="og:image"
-		content="https://images.unsplash.com/photo-1511193311914-0346f16efe90?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1473&q=80"
-	>
-	<script src="https://cdn.tailwindcss.com"></script>
+	<meta property="og:image"
+		content="https://images.unsplash.com/photo-1511193311914-0346f16efe90?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1473&q=80">
+	<!-- Iconos Fontawesome -->
+	<link
+		rel="stylesheet"
+		href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css"
+		integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w=="
+		crossorigin="anonymous"
+		referrerpolicy="no-referrer"
+	/>
+	<!-- Favicon -->
 	<link rel="shortcut icon" href="./imagenes/favicon.ico" type="image/x-icon">
+	<!-- Estilos -->
 	<link rel="stylesheet" href="./css/solitario.css">
-	<title>Solitario VIU - Actividad 1</title>
+	<!-- Título -->
+	<title>Solitario VIU</title>
 </head>
 
 <body>
-	<div class="text-neutral-200 w-[780px]">
-		<h1 class="text-3xl font-bold text-center mb-10">
-			Solitario
-			<span class="text-orange-600">VIU</span>
-		</h1>
-		<h2 class="flex items-center justify-between text-xl">
+	<div class="contenedor">
+		<nav class="navbar">
+			<h1>
+				Solitario
+				<span>VIU</span>
+			</h1>
+			<button id="reset" class="btn btn-danger">
+				<i class="fa-solid fa-power-off"></i>
+				Reiniciar
+			</button>
+		</nav>
+		<div class="stats">
 			<p>
+				<i class="fa-regular fa-clock icono"></i>
 				Tiempo:
 				<span id="contador_tiempo"></span>
 			</p>
 			<p>
+				<i class="fa-regular fa-hand icono"></i>
 				Movimientos:
-				<span id="contador_movimientos" class="">52</span>
+				<span id="contador_movimientos"></span>
 			</p>
-		</h2>
-		<main class="grid grid-cols-4 gap-5 my-10" id="mesa">
-			<div
-				id="inicial"
-				class="bg-gray-100/20 shadow-lg rounded-lg"
-			>
+		</div>
+		<main id="mesa">
+			<div id="inicial">
 				<span id="contador_inicial" class="contador"></span>
 			</div>
-			<div class="col-start-2 col-end-4">
-				<div class="flex items-center justify-center h-full">
-					<button id="sort" class="bg-orange-600 inline-block w-40 py-3 rounded-lg shadow-lg font-bold text-white">
-						Barajar
-					</button>
-				</div>
+			<div>
+				<button id="sort"
+					class="btn btn-primary">
+					<i class="fa-solid fa-repeat"></i>
+					Barajar
+				</button>
 			</div>
-			<div
-				id="sobrantes"
-				class="bg-orange-300/30 border border-orange-400
-					rounded-lg shadow-lg col-start-4 col-end-5"
-			>
+			<div id="sobrantes">
 				<span id="contador_sobrantes" class="contador"></span>
 			</div>
 
-			<div
-				id="receptor1"
-				class="tapete receptor bg-white/10 rounded-lg border shadow-lg"
-			>
+			<div id="receptor1">
 				<span id="contador_receptor1" class="contador"></span>
 			</div>
-			<div
-				id="receptor2"
-				class="tapete receptor bg-white/10 rounded-lg border shadow-lg"
-			>
+			<div id="receptor2">
 				<span id="contador_receptor2" class="contador"></span>
 			</div>
-			<div
-				id="receptor3"
-				class="tapete receptor bg-white/10 rounded-lg border shadow-lg"
-			>
+			<div id="receptor3">
 				<span id="contador_receptor3" class="contador"></span>
 			</div>
-			<div
-				id="receptor4"
-				class="tapete receptor bg-white/10 rounded-lg border shadow-lg"
-			>
+			<div id="receptor4">
 				<span id="contador_receptor4" class="contador"></span>
 			</div>
 		</main>
-
-		<button
-			id="reset"
-			class="inline-block w-40 py-3 rounded-lg shadow-lg bg-red-700 font-bold"
-		>
-			Reiniciar
-		</button>
 	</div>
-	<section
-		id="result"
-		class="absolute inset-0 h-screen w-screen bg-neutral-900/30
-		flex items-center justify-center hidden"
-	>
-		<div class="bg-white text-neutral-700 rounded-lg shadow-lg w-[780px] aspect-square p-10 grid gap-10 items-center justify-center">
+	<section id="result" class="modal hidden">
+		<div>
 			<div>
 				<img src="./imagenes/logoVIU.png" alt="VIU" width="300" class="mx-auto">
-				<h2 class="text-center font-bold text-3xl mt-5">FELICIDADES</h2>
+				<h2>FELICIDADES !!!</h2>
 			</div>
-			<ul class="text-center text-xl">
+			<ul>
 				<li>
 					<img src="./imagenes/trofeo.png" alt="Trofeo" width="64" class="mx-auto">
 				</li>
-				<li class="my-10">
-					<span class="text-xl font-bold">
+				<li>
+					<strong>
+						<i class="fa-regular fa-clock icono"></i>
 						TIEMPO TOTAL:
-					</span>
+					</strong>
 					<br>
 					<span id="tiempo-total">00:00:00</span>
 				</li>
 				<li>
-					<span class="text-xl font-bold">MOVIMIENTOS:</span>
+					<i class="fa-regular fa-hand icono"></i>
+					<strong>MOVIMIENTOS:</strong>
 					<br>
 					<span id="movimiento-total">40</span>
 				</li>
 			</ul>
-			<div class="text-center">
-				<button
-					id="again"
-					class="inline-block w-52 py-3 rounded-lg shadow-lg bg-orange-600 font-bold text-white"
-				>
-					Volver a Jugar
-				</button>
-			</div>
+			<button id="again" class="btn btn-primary">
+				<i class="fa-solid fa-repeat"></i>
+				Volver a Jugar
+			</button>
 		</div>
-
 	</section>
 
 	<script type="text/javascript" src="./js/solitario.js"></script>
