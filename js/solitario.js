@@ -27,12 +27,13 @@ let mazo = {
 const body = document.querySelector('body')
 
 // Contadores de cartas
-const contInicial     = document.getElementById("contador_inicial");
-const contSobrantes   = document.getElementById("contador_sobrantes");
-const contReceptor1   = document.getElementById("contador_receptor1");
-const contReceptor2   = document.getElementById("contador_receptor2");
-const contReceptor3   = document.getElementById("contador_receptor3");
-const contReceptor4   = document.getElementById("contador_receptor4");
+const contenedor = document.querySelector(".contenedor");
+const contInicial = document.getElementById("contador_inicial");
+const contSobrantes = document.getElementById("contador_sobrantes");
+const contReceptor1 = document.getElementById("contador_receptor1");
+const contReceptor2 = document.getElementById("contador_receptor2");
+const contReceptor3 = document.getElementById("contador_receptor3");
+const contReceptor4 = document.getElementById("contador_receptor4");
 const contMovimientos = document.getElementById("contador_movimientos");
 
 // Modal con los resultados
@@ -239,6 +240,11 @@ function drop(ev) {
 	if (!error) {
 		mazo[tapeteAnterior].pop();
 		ev.target.appendChild(document.getElementById(cartaActual));
+	} else {
+		contenedor.classList.add("shake");
+		setTimeout(() => {
+			contenedor.classList.remove("shake");
+		}, 500)
 	}
 	ev.target.style.opacity = "1";
 }
