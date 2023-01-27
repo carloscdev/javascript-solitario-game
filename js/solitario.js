@@ -27,7 +27,7 @@ let mazo = {
 const body = document.querySelector('body')
 
 // Contadores de cartas
-const contenedor = document.querySelector(".contenedor");
+const mesa = document.getElementById("mesa");
 const contInicial = document.getElementById("contador_inicial");
 const contSobrantes = document.getElementById("contador_sobrantes");
 const contReceptor1 = document.getElementById("contador_receptor1");
@@ -45,7 +45,7 @@ const modalMovimiento = document.getElementById("movimiento-total")
 const contTiempo  = document.getElementById("contador_tiempo"); // span cuenta tiempo
 let segundos 	 = 0;    // cuenta de segundos
 let temporizador = null; // manejador del temporizador
-let cronometro = ""; // almacena el cronómetro
+let cronometro = "00:00:00"; // almacena el cronómetro
 
 // Movimientos
 let movimientos = -1;
@@ -89,7 +89,9 @@ tapeteReceptor4.addEventListener("dragleave", dragSale, false);
 function comenzarJuego() {
 	barajarMazoInicial();
 	inicializarContador()
-	arrancarTiempo();
+	setTimeout(() => {
+		arrancarTiempo();
+	}, 500);
 
 }
 comenzarJuego();
@@ -205,7 +207,7 @@ function finalizarJuego() {
 function dragInicio(ev) {
 	ev.dataTransfer.setData("tapeteActual", document.getElementById(ev.target.id).parentElement.id)
 	ev.dataTransfer.setData("cartaActual",ev.target.id);
-	setTimeout(() => body.setAttribute("class", "block-event"), 50)
+	setTimeout(() => body.setAttribute("class", "block-event"), 0)
 }
 
 // Se ejecuta cuando se suelta la carta dentro de otro tapete y realiza una validación
@@ -241,9 +243,9 @@ function drop(ev) {
 		mazo[tapeteAnterior].pop();
 		ev.target.appendChild(document.getElementById(cartaActual));
 	} else {
-		contenedor.classList.add("shake");
+		mesa.classList.add("shake");
 		setTimeout(() => {
-			contenedor.classList.remove("shake");
+			mesa.classList.remove("shake");
 		}, 500)
 	}
 	ev.target.style.opacity = "1";
@@ -263,6 +265,7 @@ function validarPorNumero(prev, next) {
 	return (prev - 1) === next;
 }
 
+// Permite arrastrar elementos
 function permitirDrop(ev) {
 	ev.preventDefault();
 }
