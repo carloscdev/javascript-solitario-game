@@ -26,6 +26,9 @@ let mazo = {
 // Body
 const body = document.querySelector('body')
 
+// Loader
+const loader = document.querySelector('#loader');
+
 // Contadores de cartas
 const mesa = document.getElementById("mesa");
 const contInicial = document.getElementById("contador_inicial");
@@ -90,8 +93,9 @@ function comenzarJuego() {
 	barajarMazoInicial();
 	inicializarContador()
 	setTimeout(() => {
+		loader.classList.add('hidden');
 		arrancarTiempo();
-	}, 500);
+	}, 3000);
 
 }
 comenzarJuego();
@@ -171,7 +175,6 @@ function barajarMazo(lista) {
 
 // Reiniciar el juego
 function reiniciarJuego() {
-	modalContenedor.classList.add('hidden');
 	const listaCartaMazo = document.querySelectorAll('.cartaMazo');
 	listaCartaMazo.forEach(item => item.remove())
 	mazo['inicial'] = [];
@@ -181,7 +184,11 @@ function reiniciarJuego() {
 	mazo['receptor3'] = [];
 	mazo['receptor4'] = [];
 	movimientos = -1;
+	cronometro = "00:00:00";
+	setContador(contTiempo, cronometro);
 	clearInterval(temporizador);
+	modalContenedor.classList.add('hidden');
+	loader.classList.remove('hidden');
 	comenzarJuego();
 }
 
