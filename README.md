@@ -3,9 +3,9 @@
 - Desarrollo de aplicaciones Web II: Lado del Cliente (front-end)
 
 ## Integrantes
-- Carlos Córdova
-- Fernando Gual
-- Rolando Rivera
+- Carlos Rafael Córdova Flores
+- Fernando Hernández Gual
+- Rolando Alfonso Rivera Ibarra
 
 ## Tecnologías
 - HTML
