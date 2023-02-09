@@ -134,7 +134,7 @@ function barajarMazoInicial() {
 // Crea elementos el el DOM con las imágenes según el array
 function cargarTapete(componente, mazo) {
 	const cartaMazo = document.createElement('img');
-	cartaMazo.src = `../imagenes/baraja/${mazo}.png`;
+	cartaMazo.src = `./imagenes/baraja/${mazo}.png`;
 	cartaMazo.setAttribute('class', 'cartaMazo');
 	cartaMazo.setAttribute('id', mazo);
 	cartaMazo.setAttribute('draggable', 'true');
